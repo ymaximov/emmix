@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/userSlice";
 import { Form, Col, Row, Input, Button, Tabs, Card, Statistic, Calendar, theme } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import Doctor from "../components/Doctor";
 import { showLoading, hideLoading } from "../redux/alertsSlice";
 import CountUp from "react-countup";
+import useGet from "../hooks/useGet";
+
 const onPanelChange = (value, mode) => {
   console.log(value.format('YYYY-MM-DD'), mode);
 };
 
 export default function Home() {
+  const companyId = useSelector((state) => state.user).user.companyId._id;
+
   const dispatch = useDispatch();
-  const [doctors, setDoctors] = useState([]);
+  // const [doctors, setDoctors] = useState([]);
   const formatter = (value) => <CountUp end={value} separator="," />;
 
   const { token } = theme.useToken();
@@ -23,6 +27,15 @@ export default function Home() {
     border: `1px solid ${token.colorBorderSecondary}`,
     borderRadius: token.borderRadiusLG,
   };
+
+  // const { data: userData, isLoading: userDataLoading, err: userDataError } = useGet({
+  //   api: `/api/user/get-user-info-by-id`,
+  // });
+  // tenantsLoading ? dispatch(showLoading()) : dispatch(hideLoading())
+  // if (tentantsError) return <h1>{tentantsError}</h1>;
+  // console.log(tenants, 'Tenants data')
+  // dispatch(setUser(userData.data.data))
+
   const getData = async () => {
     try {
       const res = await axios.post(
@@ -41,31 +54,42 @@ export default function Home() {
     }
   };
 
-  const getHomePageData = async () => {
-    try {
-      dispatch(showLoading);
-      const res = await axios.get("/api/user/get-all-approved-doctors", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-      dispatch(hideLoading());
-      if (res.data.success) {
-        setDoctors(res.data.data);
-        console.log(res.data.data);
-      }
-    } catch (error) {
-      dispatch(hideLoading());
-      console.log(error);
-    }
-  };
 
+  // const getHomePageData = async () => {
+  //   try {
+  //     dispatch(showLoading);
+  //     const res = await axios.get("/api/user/get-all-approved-doctors", {
+  //       headers: {
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //     });
+  //     dispatch(hideLoading());
+  //     if (res.data.success) {
+  //       setDoctors(res.data.data);
+  //       console.log(res.data.data);
+  //     }
+  //   } catch (error) {
+  //     dispatch(hideLoading());
+  //     console.log(error);
+  //   }
+  // };
   useEffect(() => {
+    // getHomePageData();
     getData();
-    getHomePageData();
   }, []);
 
-  return (
+  //Dashboard
+
+  //tenant amount
+  const { data: tenants, isLoading: tenantsLoading, err: tentantsError } = useGet({
+    api: `/api/propertymg/get-all-tenants/${companyId}`,
+  });
+  tenantsLoading ? dispatch(showLoading()) : dispatch(hideLoading())
+  if (tentantsError) return <h1>{tentantsError}</h1>;
+  console.log(tenants, 'Tenants data')
+
+
+  return tenants ? (
     <Layout>
       <h1>Dashboard</h1>
       <hr></hr>
@@ -107,7 +131,7 @@ export default function Home() {
         <Col span={12}>
           <Statistic
             title="Tenants"
-            value={3}
+            value={tenants?.data.length}
             precision={2}
             formatter={formatter}
           />
@@ -134,5 +158,5 @@ export default function Home() {
       <Calendar fullscreen={false} onPanelChange={onPanelChange} />
     </div>
     </Layout>
-  );
+  ) : 'data is loading'
 }

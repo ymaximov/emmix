@@ -4,11 +4,11 @@ import { Form, Col, Row, Input, Button, Tabs, Card, Statistic, Calendar, theme }
 import { useNavigate, Link } from "react-router-dom";
 import useGet from '../../hooks/useGet';
 import { useSelector, useDispatch } from "react-redux";
+import { AgGridReact } from 'ag-grid-react';
+import { agGridLicense } from '../../AGGrid';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-enterprise';
-import { AgGridReact } from 'ag-grid-react';
-import { agGridLicense } from '../../AGGrid';
 import { hideLoading, showLoading } from '../../redux/alertsSlice'
 import CountUp from "react-countup";
 
@@ -52,6 +52,14 @@ export default function TenantManagement() {
           headerName: "Marital Status",
           field: "maritalStatus",
         },
+        {
+          headerName: "Residence",
+          field: "property",
+        },
+        {
+          headerName: "Unit No.",
+          field: "unit",
+        },
         // {
         //   headerName: "Phone Number",
         //   field: "phoneNumber",
@@ -77,10 +85,10 @@ export default function TenantManagement() {
         <h1>Tenant Management</h1>
         <hr/>
         <Row gutter={20}>
-        <Col span={12}>
+        <Col span={12} onClick={() => navigate('/')}>
           <Statistic
             title="Tenants"
-            value={data?.length -1}
+            value={data?.data.length}
             precision={2}
             formatter={formatter}
           />
@@ -108,7 +116,7 @@ export default function TenantManagement() {
       </Button>
       <div className="ag-theme-alpine" style={{ height: '300px', width: '85vw' }}>
       <AgGridReact
-        rowData={data}
+        rowData={data?.data}
         columnDefs={columnDefs}
         onCellClicked={handleCellClicked}
         licenseKey={agGridLicense} // Replace with your AG Grid Enterprise license key

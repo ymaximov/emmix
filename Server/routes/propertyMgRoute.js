@@ -25,12 +25,13 @@ router.post('/create-tenant', authMiddleware, async(req, res) => {
   router.get('/get-all-tenants/:companyId', authMiddleware, async(req, res) => {
     try {
         const tenants = await Tenant.find({companyId: req.params.companyId})
-        rres.status(200).send({
+        res.status(200).send({
             message: "Tenants fetched successfully",
             success: true,
             data: tenants,
           });
     } catch (error) {
+      console.log(error)
         res.status(+err.status || +err.statusCode || +err.code || 500 ).json({...err, messsage: 'failed to fetch tenants'})
     }
   })

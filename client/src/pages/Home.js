@@ -9,16 +9,17 @@ import Doctor from "../components/Doctor";
 import { showLoading, hideLoading } from "../redux/alertsSlice";
 import CountUp from "react-countup";
 import useGet from "../hooks/useGet";
+import usePost from '../hooks/usePost'
 
 const onPanelChange = (value, mode) => {
   console.log(value.format('YYYY-MM-DD'), mode);
 };
 
 export default function Home() {
-  const companyId = useSelector((state) => state.user).user.companyId._id;
+  // const companyId = useSelector((state) => state.user).user.companyId._id;
 
   const dispatch = useDispatch();
-  // const [doctors, setDoctors] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const formatter = (value) => <CountUp end={value} separator="," />;
 
   const { token } = theme.useToken();
@@ -28,13 +29,14 @@ export default function Home() {
     borderRadius: token.borderRadiusLG,
   };
 
+
   // const { data: userData, isLoading: userDataLoading, err: userDataError } = useGet({
   //   api: `/api/user/get-user-info-by-id`,
   // });
-  // tenantsLoading ? dispatch(showLoading()) : dispatch(hideLoading())
-  // if (tentantsError) return <h1>{tentantsError}</h1>;
+  // userDataLoading ? dispatch(showLoading()) : dispatch(hideLoading())
+  // if (userDataLoading) return <h1>{userDataError}</h1>;
   // console.log(tenants, 'Tenants data')
-  // dispatch(setUser(userData.data.data))
+  // dispatch(setUser(userData?.data))
 
   const getData = async () => {
     try {
@@ -55,41 +57,41 @@ export default function Home() {
   };
 
 
-  // const getHomePageData = async () => {
-  //   try {
-  //     dispatch(showLoading);
-  //     const res = await axios.get("/api/user/get-all-approved-doctors", {
-  //       headers: {
-  //         Authorization: "Bearer " + localStorage.getItem("token"),
-  //       },
-  //     });
-  //     dispatch(hideLoading());
-  //     if (res.data.success) {
-  //       setDoctors(res.data.data);
-  //       console.log(res.data.data);
-  //     }
-  //   } catch (error) {
-  //     dispatch(hideLoading());
-  //     console.log(error);
-  //   }
-  // };
+  const getHomePageData = async () => {
+    try {
+      dispatch(showLoading);
+      const res = await axios.get("/api/user/get-all-approved-doctors", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      dispatch(hideLoading());
+      if (res.data.success) {
+        setDoctors(res.data.data);
+        console.log(res.data.data);
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    // getHomePageData();
+    getHomePageData();
     getData();
   }, []);
 
   //Dashboard
 
   //tenant amount
-  const { data: tenants, isLoading: tenantsLoading, err: tentantsError } = useGet({
-    api: `/api/propertymg/get-all-tenants/${companyId}`,
-  });
-  tenantsLoading ? dispatch(showLoading()) : dispatch(hideLoading())
-  if (tentantsError) return <h1>{tentantsError}</h1>;
-  console.log(tenants, 'Tenants data')
+  // const { data: tenants, isLoading: tenantsLoading, err: tentantsError } = useGet({
+  //   api: `/api/propertymg/get-all-tenants/${companyId}`,
+  // });
+  // tenantsLoading ? dispatch(showLoading()) : dispatch(hideLoading())
+  // if (tentantsError) return <h1>{tentantsError}</h1>;
+  // console.log(tenants, 'Tenants data')
 
 
-  return tenants ? (
+  return (
     <Layout>
       <h1>Dashboard</h1>
       <hr></hr>
@@ -131,7 +133,7 @@ export default function Home() {
         <Col span={12}>
           <Statistic
             title="Tenants"
-            value={tenants?.data.length}
+            // value={tenants?.data.length}
             precision={2}
             formatter={formatter}
           />
@@ -158,5 +160,5 @@ export default function Home() {
       <Calendar fullscreen={false} onPanelChange={onPanelChange} />
     </div>
     </Layout>
-  ) : 'data is loading'
+  )
 }

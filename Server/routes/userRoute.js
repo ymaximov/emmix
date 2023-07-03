@@ -74,6 +74,7 @@ router.post('/get-user-info-by-id', authMiddleware, async(req, res)=> {
         res
         .status(500)
         .send({message: 'Error getting user info', success: false, error});
+        console.log(error)
 
     }
 })

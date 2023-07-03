@@ -187,3 +187,14 @@ label {
 .notes-month section {
   font-size: 28px;
 }
+
+.quick-actions {
+  display: flex;
+  margin: 2px 2px 10px;
+  justify-content: center;
+  /* border: 1px solid black; */
+}
+
+.quick-actions > Button {
+ margin: 2px;
+}

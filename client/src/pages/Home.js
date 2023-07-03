@@ -3,40 +3,62 @@ import axios from "axios";
 import Layout from "../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/userSlice";
-import { Form, Col, Row, Input, Button, Tabs, Card, Statistic, Calendar, theme } from "antd";
+import {
+  Form,
+  Col,
+  Row,
+  Input,
+  Button,
+  Tabs,
+  Card,
+  Statistic,
+  Calendar,
+  theme,
+} from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import Doctor from "../components/Doctor";
 import { showLoading, hideLoading } from "../redux/alertsSlice";
 import CountUp from "react-countup";
 import useGet from "../hooks/useGet";
-import usePost from '../hooks/usePost'
+import usePost from "../hooks/usePost";
+import { useNavigate } from "react-router-dom";
 
-const onPanelChange = (value, mode) => {
-  console.log(value.format('YYYY-MM-DD'), mode);
-};
 
 export default function Home() {
-  // const companyId = useSelector((state) => state.user).user.companyId._id;
-
-  const dispatch = useDispatch();
-  const [doctors, setDoctors] = useState([]);
-  const formatter = (value) => <CountUp end={value} separator="," />;
-
+  const onPanelChange = (value, mode) => {
+    console.log(value.format("YYYY-MM-DD"), mode);
+  };
   const { token } = theme.useToken();
   const wrapperStyle = {
     width: 300,
     border: `1px solid ${token.colorBorderSecondary}`,
     borderRadius: token.borderRadiusLG,
   };
+  // const companyId = useSelector((state) => state.user).user.companyId._id;
+  const { user } = useSelector((state) => state.user);
+  console.log(user?.companyId._id);
+  const dispatch = useDispatch();
+  const [doctors, setDoctors] = useState([]);
+  const formatter = (value) => <CountUp end={value} separator="," />;
+  const navigate = useNavigate();
 
 
-  // const { data: userData, isLoading: userDataLoading, err: userDataError } = useGet({
-  //   api: `/api/user/get-user-info-by-id`,
-  // });
-  // userDataLoading ? dispatch(showLoading()) : dispatch(hideLoading())
-  // if (userDataLoading) return <h1>{userDataError}</h1>;
-  // console.log(tenants, 'Tenants data')
-  // dispatch(setUser(userData?.data))
+//  const getTenants = async () => {
+//   try {
+//     const res = await axios.get(
+//       `/api/propertymg/get-all-tenants/${user?.companyId._id}`,
+//       {},
+//       {
+//         headers: {
+//           Authorization: "Bearer " + localStorage.getItem("token"),
+//         },
+//       }
+//     );
+//     console.log(res.data);
+//   } catch (error) {
+//     console.log(error);
+//   }
+//  }
 
   const getData = async () => {
     try {
@@ -56,7 +78,6 @@ export default function Home() {
     }
   };
 
-
   const getHomePageData = async () => {
     try {
       dispatch(showLoading);
@@ -75,9 +96,18 @@ export default function Home() {
       console.log(error);
     }
   };
+
+  const { data: tenants, isLoading, err } = useGet({
+    api: `/api/propertymg/get-all-tenants/${user?.companyId._id}`,
+  });
+  isLoading ? dispatch(showLoading()) : dispatch(hideLoading())
+  if (err) return <h1>{err}</h1>;
+  console.log(tenants, 'data')
+
   useEffect(() => {
     getHomePageData();
     getData();
+    // getTenants()
   }, []);
 
   //Dashboard
@@ -90,11 +120,25 @@ export default function Home() {
   // if (tentantsError) return <h1>{tentantsError}</h1>;
   // console.log(tenants, 'Tenants data')
 
-
   return (
     <Layout>
       <h1>Dashboard</h1>
       <hr></hr>
+      <div className="quick-actions">
+        <Button type="primary" onClick={() => navigate("add-business-partner")}>
+          New Partner
+        </Button>
+        <Button type="primary">New Property</Button>
+        <Button
+          type="primary"
+          onClick={() => navigate("/property-management/add-tenant")}
+        >
+          New Tenant
+        </Button>
+        <Button type="primary">New PO</Button>
+        <Button type="primary">New Payment</Button>
+        <Button type="primary">New Contract</Button>
+      </div>
       <Row gutter={16}>
         <Col span={12}>
           <Card bordered={true}>
@@ -124,16 +168,12 @@ export default function Home() {
       <hr />
       <Row gutter={20}>
         <Col span={12}>
-          <Statistic
-            title="Properties"
-            value={4}
-            formatter={formatter}
-          />
+          <Statistic title="Properties" value={4} formatter={formatter} />
         </Col>
         <Col span={12}>
           <Statistic
             title="Tenants"
-            // value={tenants?.data.length}
+            value={tenants?.data.length}
             precision={2}
             formatter={formatter}
           />
@@ -156,9 +196,14 @@ export default function Home() {
         </Col>
       </Row>
       <hr />
-      <div style={wrapperStyle}>
-      <Calendar fullscreen={false} onPanelChange={onPanelChange} />
-    </div>
+      <Row>
+        <Col>
+          <div style={wrapperStyle}>
+            <Calendar fullscreen={false} onPanelChange={onPanelChange} onSelect={(e) => console.log(e)} onClick={() => alert('hi')}/>
+          </div>
+        </Col>
+        <Col>\</Col>
+      </Row>
     </Layout>
-  )
+  );
 }

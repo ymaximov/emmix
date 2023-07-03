@@ -29,6 +29,7 @@ import BpProfile from "./pages/BusPartnerProfile";
 import BusPartnerProfile from "./pages/BusPartnerProfile";
 import TenantManagement from "./pages/property-management/TenantManagement";
 import AddTenant from "./pages/property-management/AddTenant";
+import HomeCalendar from "./pages/UIComponents/HomeCalendar";
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -64,6 +65,7 @@ function App() {
         <Route path="/tasks" element={<ProtectedRoute><Tasks/></ProtectedRoute>}></Route>
         <Route path="/property-management/tenant-management" element={<ProtectedRoute><TenantManagement /></ProtectedRoute>}></Route>
         <Route path="/property-management/add-tenant" element={<ProtectedRoute><AddTenant /></ProtectedRoute>}></Route>
+        <Route path="/home-calendar" element={<ProtectedRoute><HomeCalendar /></ProtectedRoute>}></Route>
       </Routes>
     </BrowserRouter>
   );

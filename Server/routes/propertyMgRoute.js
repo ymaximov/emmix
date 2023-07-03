@@ -30,8 +30,8 @@ router.post('/create-tenant', authMiddleware, async(req, res) => {
             success: true,
             data: tenants,
           });
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
         res.status(+err.status || +err.statusCode || +err.code || 500 ).json({...err, messsage: 'failed to fetch tenants'})
     }
   })

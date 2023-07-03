@@ -72,6 +72,8 @@ export default function BusinessPartners() {
     // },
   ];
   console.log(data);
+
+  
   return (
     <Layout>
       <h1>Business Partners</h1>
@@ -84,7 +86,7 @@ export default function BusinessPartners() {
         rowData={data}
         columnDefs={columnDefs}
         onCellClicked={handleCellClicked}
-        licenseKey={agGridLicense} // Replace with your AG Grid Enterprise license key
+
       ></AgGridReact>
     </div>
     </Layout>

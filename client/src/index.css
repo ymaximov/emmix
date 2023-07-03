@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* antd override */
+
+.ant-input-password {
+  border: none !important;
+  margin-left: -11px !important;
+  width: 18vw !important;
+}
+
+input{
+  border-radius: 0 !important;
+  border: 1px solid rgba(128, 128, 128, 0.931) !important;
+  height: 40px !important;
+}
+
+input:focus .ant-picker {
+  outline: none !important;
+  box-shadow: none !important;
+  border: 1px solid gray !important;
+}
+
+label {
+  font-size: 16px !important;
+  color: black !important;
+}
+
+.ant-form-item {
+  margin: 10px 0 !important;
+}
+/* Common Styling */
+.ant-btn-primary {
+  background-color: blueviolet !important;
+  margin-bottom: 14px;
+}
+.spinner-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.704);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  z-index: 9999;
+}
+
+.spinner-border {
+  width: 4rem;
+  height: 4rem;
+  color: rgb(216, 4, 244);
+}
+
+.card-title {
+   font-size: 1.5rem;
+   font-weight: bold;
+}
+.card {
+  box-shadow: 0 0 2px gray;
+  border-radius: 0 !important;
+}
+
+.normal-text {
+  font-size: 1rem;
+}
+
+.primary-button {
+  background-color: rgb(137, 53, 215) !important;
+  border-color: black !important;
+  height: 40px !important;
+  width: 100% !important;
+  color: white !important;
+  font-size: 16px !important;
+  font-weight:900 !important;
+  width: 90px !important;
+  margin-top: 10px;
+}
+
+.full-width-button {
+  width: 100% !important;
+}
+
+.anchor {
+  color: black !important;
+  text-decoration: underline !important;
+  font-size: 16px !important;
+  cursor: pointer;
+}
+
+.anchor:hover {
+  text-decoration: underline !important;
+}
+
+.ant-picker-input input {
+  border: none !important;
+}
+
+.ant-picker {
+  height: 40px !important;
+  border-radius: 2px !important;
+  border: 1px solid rgba(128, 128, 128, 0.931) !important;
+}
+
+/* authentication pages */
+
+.authentication {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center ;
+  background-color: rgba(160, 168, 167, 0.121);
+}
+
+.doctor {
+  cursor: pointer !important;
+}
+.authentication-form {
+  width: 400px
+}
+
+.authentication .card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: rgb(106, 174, 242);
+  color: white !important;
+  max-width: max-content !important;
+  padding: 7px 15px;
+  margin-left: 104px;
+}
+
+.page-title {
+  font-size: 25px;
+  color: (0, 0, 0, 0.833);
+  font-weight: bold;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: (0, 0, 0, 0.627);
+}
+
+.bp-type {
+  height: 40px !important;
+  width: 26.66vw;
+  border-radius: 2px;
+  border: 1px solid rgba(123, 113, 113, 0.88);
+}
+
+.user-role {
+  width: 27.3vw;
+  height: 40px;
+  margin-left: 10px !important;
+}
+
+.role-label {
+  margin-left: 5px;
+}
+
+.logo-login-register {
+  margin-bottom: 15px;
+  margin-left: 105px;
+  margin-top: 10px;
+}
+
+/* Tasks Calendar */
+
+.events {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.events .ant-badge-status {
+  width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.notes-month {
+  font-size: 28px;
+  text-align: center;
+}
+.notes-month section {
+  font-size: 28px;
+}

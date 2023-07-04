@@ -27,6 +27,7 @@ export default function TenantManagement() {
       const { data, isLoading, err } = useGet({
         api: `/api/propertymg/get-all-tenants/${companyId}`,
       });
+      console.log(data)
       isLoading ? dispatch(showLoading()) : dispatch(hideLoading())
       if (err) return <h1>{err}</h1>;
       console.log(data, 'data')

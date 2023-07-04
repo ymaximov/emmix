@@ -8,6 +8,16 @@ const BusinessPartner = require('../models/businessPartnersModel')
 const Client = require('../models/clientsModel')
 const Tenant = require('../models/tenantsModel')
 const User = require('../models/userModel')
+const knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host : 'localhost',
+    port : 5432,
+    user : 'postgres',
+    password : 'Bitilto05!',
+    database : 'emmix'
+  }
+});
 
 router.post('/create-tenant', authMiddleware, async(req, res) => {
     try {
